@@ -160,8 +160,8 @@ bool AT24CXX::writeN(uint16_t address, uint8_t* vals, uint16_t len)
 // Private: Hardware I2C Read Function
 bool AT24CXX::readN(uint16_t address, uint8_t* vals, uint16_t len)
 {
-    bool     result = false;
-    uint8_t  addr   = _chip_addr;
+    bool    result = false;
+    uint8_t addr   = _chip_addr;
 
     if (_mode && ((uint32_t)(address + len) <= _chip_size))
     {
@@ -172,9 +172,9 @@ bool AT24CXX::readN(uint16_t address, uint8_t* vals, uint16_t len)
         }
 
         if (_addr_bytes > 1) 
-            _i2c.write((uint16_t)(address), vals, len);
+            _i2c.writeRead((uint16_t)(address), vals, len);
         else
-            _i2c.write((uint8_t)(address), vals, len);
+            _i2c.writeRead((uint8_t)(address), vals, len);
 
         result = true;
     }
