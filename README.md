@@ -8,7 +8,7 @@ This HAL-mediated EEPROM driver permits ease of use that is portable across many
 
 ## Usage
 
-The driver's header and source rely on an external user-defined hardware abstraction layer (HAL) called `hal.h` which defines the necessary calls in the `HAL` namespace. Namely, a GPIO object with `pinMode()` and `digitalWrite()` methods, and an I2C object with `init()`, `setAddress()`, `write()`, and `writeRead()` methods.
+The driver's header and source rely on an external user-defined hardware abstraction layer (HAL) called `hal.h` which defines the necessary calls in the `HAL` namespace. Namely, a GPIO object with `pinMode()` and `digitalWrite()` methods, and an I2C object with `init()`, `setAddress()`, `write()`, and `writeRead()` methods. Finally, a `delay_ms()` function will also be required in the `HAL` namespace, as during writes the EEPROM will be in a busy state inbetween page for 5ms while the previous page write operation completes.
 
 The HAL GPIO pin object `pinMode()` method should set as output when supplied with a const value `GPIO_OUTPUT`, and the `digitalWrite()` method should take a single boolean argument of logic level to which the pin will be driven. The HAL I2C object `init()` method should perform any necessary initialization, and the `setAddress()` method should set the address that is stored within the object for transactions. The `write()` method writes bytes from the specified buffer of the specified length, while the `writeRead()` method specifies a single 8- or 16-bit value to write as register access followed by a read into the given buffer to the given length. 
 

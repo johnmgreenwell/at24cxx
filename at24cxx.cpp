@@ -149,7 +149,7 @@ bool AT24CXX::writeN(uint16_t address, uint8_t* vals, uint16_t len)
 
             bytes_sent += chunk;
             offset = 0;
-            // HAL::delay_ms(EEPROM_WRITE_CYCLE_TIME_MS);
+            HAL::delay_ms(EEPROM_WRITE_CYCLE_TIME_MS);
         }
         result = true;
     }
