@@ -44,14 +44,14 @@ extern const uint32_t AT24C512;
 class AT24CXX
 {
     public:
-        /**
-         * @brief Constructor for AT24CXX object
-         * @param chip Defined const value for chip (e.g. PeripheralIO::AT23C02)
-         * @param chip_addr Externally biased address of chip
-         * @param wp_pin Pin ID number for GPIO connected to WP pin; value -1 for unused
-         * @param i2c_channel I2C channel the AT24Cxx is connected to
-        */
-        AT24CXX(uint32_t chip, uint8_t chip_addr=0, uint8_t wp_pin=-1, uint8_t i2c_channel=0);
+       /**
+        * @brief Constructor for AT24CXX object
+        * @param i2c_bus Reference to instance of HAL I2C object
+        * @param chip Defined const value for chip (e.g. PeripheralIO::AT23C02)
+        * @param chip_addr Externally biased address of chip
+        * @param wp_pin Pin ID number for GPIO connected to WP pin; value -1 for unused
+       */
+        AT24CXX(HAL::I2C& i2c_bus, uint32_t chip, uint8_t chip_addr=0, uint8_t wp_pin=-1);
 
         /**
          * @brief Initialize the IO for AT24CXX object; must be called prior to use of member functions
@@ -121,7 +121,7 @@ class AT24CXX
         bool writeN(uint16_t, uint8_t*, uint16_t);
         bool readN(uint16_t, uint8_t*, uint16_t);
 
-        HAL::I2C  _i2c;
+        HAL::I2C& _i2c;
         HAL::GPIO _wp_pin;
         uint32_t  _chip_size;
         uint8_t   _chip_addr;

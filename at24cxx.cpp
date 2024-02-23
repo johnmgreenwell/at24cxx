@@ -30,8 +30,8 @@ const uint8_t AT24CXX_ADDR               = 0x50; // 7-bit addr
 const uint8_t EEPROM_WRITE_CYCLE_TIME_MS = 5;    // datasheet: 5ms max
 
 
-AT24CXX::AT24CXX(uint32_t chip, uint8_t chip_addr, uint8_t wp_pin, uint8_t i2c_channel)
-: _i2c((uint8_t)(AT24CXX_ADDR | (chip_addr & 0x07)), i2c_channel)
+AT24CXX::AT24CXX(HAL::I2C& i2c_bus, uint32_t chip, uint8_t chip_addr, uint8_t wp_pin)
+: _i2c(i2c_bus)
 , _wp_pin(wp_pin)
 , _chip_size(chip & 0x0001FFFF)
 , _chip_addr((uint8_t)(AT24CXX_ADDR | (chip_addr & 0x07)))
