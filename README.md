@@ -33,6 +33,9 @@ int main()
     uint8_t data_i[4];
 
 ...
+    // Init I2C bus
+	i2c_bus.init();
+
     // Init EEPROM
     eeprom.init();
 

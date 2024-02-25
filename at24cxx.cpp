@@ -114,7 +114,7 @@ bool AT24CXX::writeN(uint16_t address, uint8_t* vals, uint16_t len)
 {
     bool     result = false;
     uint16_t bytes_sent;
-    uint8_t  addr;
+    uint8_t  i2c_addr;
     uint8_t  offset;
     uint8_t  page_size;
     uint16_t pages_req;
@@ -128,7 +128,7 @@ bool AT24CXX::writeN(uint16_t address, uint8_t* vals, uint16_t len)
             page_size = 16; // AT24C32+ can only write 30 bytes at a time
         
         bytes_sent = 0;
-        addr       = _chip_addr;
+        i2c_addr   = _chip_addr;
         offset     = address % page_size;
         pages_req  = (((len + offset - 1) / page_size) + 1);
 
@@ -136,16 +136,15 @@ bool AT24CXX::writeN(uint16_t address, uint8_t* vals, uint16_t len)
         {
             if (_addr_ov_bits)
             {
-                addr = ((uint8_t)((_chip_addr & 0xF8) | (((address + bytes_sent) & 0x0700) >> 8)));
-                _i2c.setAddress(addr);
+                i2c_addr = ((uint8_t)((_chip_addr & 0xF8) | (((address + bytes_sent) & 0x0700) >> 8)));
             }
 
             chunk = ((page_size - offset) < (len - bytes_sent)) ? (page_size - offset) : (len - bytes_sent);
 
             if (_addr_bytes > 1)
-                _i2c.write((uint16_t)(address + bytes_sent), &vals[bytes_sent], chunk);
+                _i2c.write(i2c_addr, (uint16_t)(address + bytes_sent), &vals[bytes_sent], chunk);
             else
-                _i2c.write((uint8_t)(address + bytes_sent), &vals[bytes_sent], chunk);
+                _i2c.write(i2c_addr, (uint8_t)(address + bytes_sent), &vals[bytes_sent], chunk);
 
             bytes_sent += chunk;
             offset = 0;
@@ -160,21 +159,20 @@ bool AT24CXX::writeN(uint16_t address, uint8_t* vals, uint16_t len)
 // Private: Hardware I2C Read Function
 bool AT24CXX::readN(uint16_t address, uint8_t* vals, uint16_t len)
 {
-    bool    result = false;
-    uint8_t addr   = _chip_addr;
+    bool    result   = false;
+    uint8_t i2c_addr = _chip_addr;
 
     if (_mode && ((uint32_t)(address + len) <= _chip_size))
     {
         if (_addr_ov_bits)
         {
-            addr = ((uint8_t)((_chip_addr & 0xF8) | (((address + 0) & 0x0700) >> 8)));
-            _i2c.setAddress(addr);
+            i2c_addr = ((uint8_t)((_chip_addr & 0xF8) | (((address + 0) & 0x0700) >> 8)));
         }
 
         if (_addr_bytes > 1) 
-            _i2c.writeRead((uint16_t)(address), vals, len);
+            _i2c.writeRead(i2c_addr, (uint16_t)(address), vals, len);
         else
-            _i2c.writeRead((uint8_t)(address), vals, len);
+            _i2c.writeRead(i2c_addr, (uint8_t)(address), vals, len);
 
         result = true;
     }
