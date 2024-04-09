@@ -34,7 +34,7 @@ int main()
 
 ...
     // Init I2C bus
-	i2c_bus.init();
+    i2c_bus.init();
 
     // Init EEPROM
     eeprom.init();
