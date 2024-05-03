@@ -1,0 +1,18 @@
+{
+    "name": "at24cxx",
+    "version": "1.0.0",
+    "description": "Portable, multi-instance AT24CXX EEPROM driver",
+    "keywords": "embedded, driver, hal, eeprom, at24cxx",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/johnmgreenwell/at24cxx"
+    },
+    "license": "MIT",
+    "frameworks": "*",
+    "platforms": "*",
+    "build": {
+        "flags": [
+        "-I../../include"
+        ]
+    }
+}
