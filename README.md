@@ -4,7 +4,7 @@ Portable, multi-instance AT24CXX EEPROM driver.
 
 ## Overview
 
-This HAL-mediated EEPROM driver permits ease of use that is portable across many platforms. It is designed specifically for the [AT24CXX series](https://ww1.microchip.com/downloads/en/devicedoc/doc0180.pdf) EEPROM chips (1kB to 256kB), with compatibility expected to extend to similar chips.
+This HAL-mediated EEPROM driver permits ease of use that is designed to be platform-independent. It is designed specifically for the [AT24CXX series](https://ww1.microchip.com/downloads/en/devicedoc/doc0180.pdf) EEPROM chips (1kB to 256kB), with compatibility expected to extend to similar chips.
 
 ## Usage
 
