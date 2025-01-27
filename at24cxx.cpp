@@ -142,9 +142,11 @@ bool AT24CXX::writeN(uint16_t address, uint8_t* vals, uint16_t len)
             chunk = ((page_size - offset) < (len - bytes_sent)) ? (page_size - offset) : (len - bytes_sent);
 
             if (_addr_bytes > 1)
-                _i2c.write(i2c_addr, (uint16_t)(address + bytes_sent), &vals[bytes_sent], chunk);
+                if (0 != _i2c.write(i2c_addr, (uint16_t)(address + bytes_sent), &vals[bytes_sent], chunk))
+                    return false;
             else
-                _i2c.write(i2c_addr, (uint8_t)(address + bytes_sent), &vals[bytes_sent], chunk);
+                if (0 != _i2c.write(i2c_addr, (uint8_t)(address + bytes_sent), &vals[bytes_sent], chunk))
+                    return false;
 
             bytes_sent += chunk;
             offset = 0;
@@ -170,9 +172,11 @@ bool AT24CXX::readN(uint16_t address, uint8_t* vals, uint16_t len)
         }
 
         if (_addr_bytes > 1) 
-            _i2c.writeRead(i2c_addr, (uint16_t)(address), vals, len);
+            if (0 != _i2c.writeRead(i2c_addr, (uint16_t)(address), vals, len))
+                return false;
         else
-            _i2c.writeRead(i2c_addr, (uint8_t)(address), vals, len);
+            if (0 != _i2c.writeRead(i2c_addr, (uint8_t)(address), vals, len))
+                return false;
 
         result = true;
     }

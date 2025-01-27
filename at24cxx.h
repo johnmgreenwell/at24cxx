@@ -62,7 +62,7 @@ class AT24CXX
          * @brief Write single byte to EEPROM address
          * @param address Address to which value should be written
          * @param val Value to write to EEPROM address
-         * @return False for invalid request, true otherwise
+         * @return False for I2C error or invalid request, true otherwise
         */
         bool write(uint16_t address, uint8_t val);
 
@@ -71,7 +71,7 @@ class AT24CXX
          * @param address Starting address to which values should be written
          * @param vals Pointer to array of values to write to EEPROM
          * @param len Number of bytes to write to EEPROM
-         * @return False for invalid request, true otherwise
+         * @return False for I2C error or invalid request, true otherwise
         */
         bool write(uint16_t address, uint8_t * vals, uint16_t len);
 
@@ -80,7 +80,7 @@ class AT24CXX
          * @param address Starting address where string will be written
          * @param str Pointer to string of character to write
          * @param len Number of characters to write to EEPROM
-         * @return False for invalid request, true otherwise
+         * @return False for I2C error or invalid request, true otherwise
         */
         bool write(uint16_t address, const char * str, uint16_t len);
 
@@ -96,6 +96,7 @@ class AT24CXX
          * @param address Address from which values should be read
          * @param vals Pointer to array into which read values will be placed
          * @param len Number of bytes to read from EEPROM
+         * @result False for I2C error or invalid request, true otherwise
         */
         bool read(uint16_t address, uint8_t* vals, uint16_t len);
 
@@ -104,6 +105,7 @@ class AT24CXX
          * @param address Address from which values should be read
          * @param str Pointer to array into which read values will be placed
          * @param len Number of bytes to read from EEPROM
+         * @result False for I2C error or invalid request, true otherwise
         */
         bool read(uint16_t address, char* str, uint16_t len);
 
