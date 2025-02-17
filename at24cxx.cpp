@@ -13,6 +13,9 @@
 namespace PeripheralIO
 {
 
+#define ATTEMPT_I2C_WRITE(addr, reg, data, len)  if (0 != _i2c.write(addr, reg, data, len))      return false
+#define ATTEMPT_I2C_READ(addr, reg, data, len)   if (0 != _i2c.writeRead(addr, reg, data, len))  return false
+
 // Chip Selection (   chip size | page size   |addr bytes | addr overflow bits)
 const uint32_t AT24C01  = 128   | (8 << 20)   | (1 << 28) | (0 << 30);
 const uint32_t AT24C02  = 256   | (8 << 20)   | (1 << 28) | (0 << 30);
@@ -142,11 +145,9 @@ bool AT24CXX::writeN(uint16_t address, uint8_t* vals, uint16_t len)
             chunk = ((page_size - offset) < (len - bytes_sent)) ? (page_size - offset) : (len - bytes_sent);
 
             if (_addr_bytes > 1)
-                if (0 != _i2c.write(i2c_addr, (uint16_t)(address + bytes_sent), &vals[bytes_sent], chunk))
-                    return false;
+                ATTEMPT_I2C_WRITE(i2c_addr, (uint16_t)(address + bytes_sent), &vals[bytes_sent], chunk);
             else
-                if (0 != _i2c.write(i2c_addr, (uint8_t)(address + bytes_sent), &vals[bytes_sent], chunk))
-                    return false;
+                ATTEMPT_I2C_WRITE(i2c_addr, (uint8_t)(address + bytes_sent), &vals[bytes_sent], chunk);
 
             bytes_sent += chunk;
             offset = 0;
@@ -172,11 +173,9 @@ bool AT24CXX::readN(uint16_t address, uint8_t* vals, uint16_t len)
         }
 
         if (_addr_bytes > 1) 
-            if (0 != _i2c.writeRead(i2c_addr, (uint16_t)(address), vals, len))
-                return false;
+            ATTEMPT_I2C_READ(i2c_addr, (uint16_t)(address), vals, len);
         else
-            if (0 != _i2c.writeRead(i2c_addr, (uint8_t)(address), vals, len))
-                return false;
+            ATTEMPT_I2C_READ(i2c_addr, (uint8_t)(address), vals, len);
 
         result = true;
     }
