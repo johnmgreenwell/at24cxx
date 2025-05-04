@@ -12,6 +12,8 @@ The driver's header and source rely on an external user-defined hardware abstrac
 
 The HAL GPIO pin object `pinMode()` method should set as output when supplied with a const value `GPIO_OUTPUT`, and the `digitalWrite()` method should take a single boolean argument of logic level to which the pin will be driven. The HAL I2C object `init()` method should perform any necessary initialization, if relevant. The `write()` method writes bytes from the specified buffer of the specified length, while the `writeRead()` method specifies a single 8- or 16-bit value to write as register access followed by a read into the given buffer to the given length. Each method takes the target address, as it is expected that the bus may be shared.
 
+Most methods of this driver will return true for success, or false for I2C bus error or malformed parameters.
+
 ### Example
 
 ```cpp
